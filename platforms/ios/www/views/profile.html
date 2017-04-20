@@ -1,17 +1,22 @@
 <ons-page>
     <ons-toolbar>
         <div class="left">
-            <ons-back-button>
-                Back
-            </ons-back-button>
-        </div>
+            <ons-toolbar-button ng-click="mynav.resetToPage('views/home.html')">
+                <ons-icon icon="md-home"></ons-icon>
+            </ons-toolbar-button>
+        </div>  
+        <div class="right">
+            <ons-toolbar-button ng-click="mynav.resetToPage('views/profile.html')">
+              <ons-icon icon="md-account-o"></ons-icon>
+            </ons-toolbar-button>
+        </div>   
         <div class="center"><img src="img/xedro.png" class="toolbar-image"></div>
     </ons-toolbar>
     
     <div class="profile-card">
 
         <img src="img/tony.jpg" class="profile-image">
-        <div class="profile-name">Antonio Cedeno</div>
+        <div class="profile-name">{{name}}</div>
         <div class="profile-id">@tony850421</div>
         <div class="profile-desc">Freelance software developer, software engineer and etc</div>
 
@@ -48,8 +53,16 @@
         <ons-list-item modifier="chevron">
           Save to the list
         </ons-list-item>
-
     </ons-list>
 
     <br>
+
+    <ons-tabbar>
+        <ons-tab page="uno.html" label="Uno" icon="ion-ios-chatboxes">
+        </ons-tab>
+        <ons-tab page="dos.html" label="Dos" icon="ion-ios-people">
+        </ons-tab>
+        <ons-tab page="views/profile.html" label="Profile" icon="ion-person">
+        </ons-tab>
+    </ons-tabbar>
 </ons-page>

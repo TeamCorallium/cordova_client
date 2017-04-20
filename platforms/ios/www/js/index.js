@@ -28,7 +28,8 @@ app.initialize();
 var app = angular.module('myApp', ['onsen']);
 
 app.controller('MainController', function ($scope, $http){
-        
+    
+    $scope.name = "Antonio Cedenno";
     $scope.itemsArray = [];
     $scope.filterEnable = true;
     $scope.httpConnection = 'ok';
