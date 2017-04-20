@@ -1,0 +1,83 @@
+{
+    "cordova-plugin-camera": {
+        "source": {
+            "type": "local",
+            "path": "../plugins/cordova-plugin-camera-master"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "org.cloudsky.cordovaplugins.zbar": {
+        "source": {
+            "type": "local",
+            "path": "../plugins/csZBar-master"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-file-transfer": {
+        "source": {
+            "type": "local",
+            "path": "../plugins/cordova-plugin-file-transfer-master"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-file": {
+        "source": {
+            "type": "local",
+            "path": "../plugins/cordova-plugin-file-5f88e01"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-device": {
+        "source": {
+            "type": "local",
+            "path": "../plugins/cordova-plugin-device-08bf01d"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-console": {
+        "source": {
+            "type": "local",
+            "path": "../plugins/cordova-plugin-console-851c0c3"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-keyboard": {
+        "source": {
+            "type": "local",
+            "path": "/home/tony/Downloads/cordova-plugin-keyboard-master"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.mediamatrixdoo.keepscreenon": {
+        "source": {
+            "type": "local",
+            "path": "/home/tony/Downloads/PhoneGap-KeepScreenOn-plugin-master"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "phonegap-plugin-barcodescanner": {
+        "source": {
+            "type": "local",
+            "path": "../phonegap-plugin-barcodescanner"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-whitelist": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/apache/cordova-plugin-whitelist.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
+}

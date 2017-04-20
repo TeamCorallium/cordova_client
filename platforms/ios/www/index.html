@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appAngular" ng-csp>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="author" content="Petsoon Inc.">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"/>
+
+
+        <!-- JS dependencies (order matters!) -->
+        <!-- <script src="scripts/platformOverrides.js"></script> -->
+        <script src="lib/angular/angular.js"></script>      
+        <script src="js/jquery-2.1.0.min.js"></script>
+        <script src="lib/onsen/js/onsenui.js"></script>
+        
+        <!-- Cordova reference -->
+        <script src="cordova.js"></script>
+        <!-- <script src="lib/angular/index.js"></script> -->
+        <script src="js/index.js"></script>
+        <script src="js/controllers.js"></script>
+        
+        <!-- CSS dependencies -->
+        <link rel="stylesheet" href="lib/onsen/css/onsenui.css" />
+        <link rel="stylesheet" href="lib/onsen/css/onsen-css-components-blue-theme.css" />
+        <link rel="stylesheet" type="text/css" href="css/custom.css" />
+        <link rel="stylesheet" type="text/css" href="fonts/fa/css/font-awesome.min.css" />
+        
+        <!-- CSP support mode (required for Windows Universal apps) -->
+        <link rel="stylesheet" href="lib/angular/angular-csp.css" />
+
+        <title>EZ Check In Scanner</title>
+    </head>
+    <body id="BodyID" ng-controller="AppController">
+        <ons-modal var="modal">
+            <ons-icon icon="ion-load-c" spin="true"></ons-icon>
+            <br>
+            <br> <p class="normalblack"> Please wait... </p>
+        </ons-modal>
+		
+        <ons-navigator title="Navigator" var="myNavigator">
+            <ons-page id="uno">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" ng-click='myNavigator.pushPage("settingPage.html", { animation : "slide" } )'>
+                            <ons-icon icon="ion-ios-cog"></ons-icon>
+                            Settings
+                        </ons-toolbar-button>
+                    </div>
+                    <div class="right">
+                        <ons-toolbar-button>
+<!--                            <img src="img/logo.png" class="my-icon">-->
+                            App icon.
+                        </ons-toolbar-button>
+                    </div>
+                </ons-toolbar>
+                <br /><br /><br />
+                <div style="text-align: center">
+					<p class="normalblue">Ligth Control {{checkedValue}}</p>
+                    <p class="normalred">{{httpConnection}}</p>
+                    <br /><br />
+                    
+                </div>
+                <ons-list-header>Group 1</ons-list-header>
+                <ul class="list">
+                  <li class="list__item">
+                    <div class="list__item__center">
+                      Ligth 1
+                    </div>
+                    <div class="list__item__right">
+                      <label class="switch">
+                        <input type="checkbox" class="switch__input" ng-model="checkedValue1" ng-change="onCheckbox(checkedValue1, 1)">
+                        <div class="switch__toggle">
+                          <div class="switch__handle"></div>
+                        </div>
+                      </label>
+                    </div>
+                  </li>
+                  <li class="list__item">
+                    <div class="list__item__center">
+                      Ligth 2
+                    </div>
+                    <div class="list__item__right">
+                      <label class="switch">
+                        <input type="checkbox" class="switch__input" ng-model="checkedValue2" ng-change="onCheckbox(checkedValue2, 2)">
+                        <div class="switch__toggle">
+                          <div class="switch__handle"></div>
+                        </div>
+                      </label>
+                    </div>
+                  </li>
+                </ul>                
+                <ons-list-header>Group 2</ons-list-header>
+                <ul class="list">
+                  <li class="list__item">
+                    <div class="list__item__center">
+                      Ligth 1
+                    </div>
+                    <div class="list__item__right">
+                      <label class="switch">
+                        <input type="checkbox" class="switch__input" ng-model="checkedValue3" ng-change="onCheckbox(checkedValue3, 3)">
+                        <div class="switch__toggle">
+                          <div class="switch__handle"></div>
+                        </div>
+                      </label>
+                    </div>
+                  </li>
+                  <li class="list__item">
+                    <div class="list__item__center">
+                      Ligth 2
+                    </div>
+                    <div class="list__item__right">
+                      <label class="switch">
+                        <input type="checkbox" class="switch__input" ng-model="checkedValue4" ng-change="onCheckbox(checkedValue4, 4)">
+                        <div class="switch__toggle">
+                          <div class="switch__handle"></div>
+                        </div>
+                      </label>
+                    </div>
+                  </li>
+                </ul>   
+            </ons-page>
+        </ons-navigator>
+
+        <ons-template id="page0.html">
+            <ons-page id="dos">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" ng-click='myNavigator.pushPage("settingPage.html", { animation : "slide" } )'>
+                            <ons-icon icon="ion-ios-cog"></ons-icon>
+                            Settings
+                        </ons-toolbar-button>
+                    </div>
+                    <div class="right">
+                        <ons-toolbar-button>
+                            <img src="img/logo_s.png" class="my-icon">
+                        </ons-toolbar-button>
+                    </div>
+                </ons-toolbar>
+                <br /><br /><br />
+                <div style="text-align: center">
+					<p class="bigpink">Welcome</p>
+					<br/><br/><br/>
+                    <ons-button class="custompink" modifier="outline" ng-click='setIsAppointment(true); myNavigator.pushPage("pageSelectTime.html", { animation : "slide" } )'>
+                        Appointment
+                    </ons-button>
+					&nbsp;&nbsp;
+                    <ons-button class="customblue" modifier="outline" ng-click='setIsAppointment(false); myNavigator.pushPage("pageReason.html", { animation : "slide" } )'>
+                        Walk-in
+                    </ons-button>
+                </div>
+            </ons-page>
+        </ons-template>
+
+        <ons-template id="settingPage.html">
+            <ons-page ng-controller="SettingController">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage()">
+                            <ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+                            Back
+                        </ons-toolbar-button>
+                    </div>
+                    <div class="right">
+                        <ons-toolbar-button>
+                            <img src="img/logo_s.png" class="my-icon">
+                        </ons-toolbar-button>
+                    </div>
+                </ons-toolbar>
+                <br /><br /><br />
+                <div style="text-align: center">
+                    <p class="midblue">Please set restful server URI</p>
+                    <br /><br />
+                    <input type="text" id="inputURI" style="width:550px" class="text-input" ng-model="textURI" placeholder="URL">
+                    {{setBackEndURI(textURI)}}
+                    <br /><br />
+                    <ons-button class="custompink" modifier="outline" ng-click='myNavigator.popPage()'>
+                        Done
+                    </ons-button>
+                </div>
+            </ons-page>
+        </ons-template>
+
+        <ons-template id="pageReason.html">
+            <ons-page ng-controller="PageReasonController">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage()">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+                    </div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>              
+                <br /><br />
+                <div style="text-align: center" class="reason">
+					<p class="bigpink">Select the reason of your {{getPageReasonMessage()}}</p>
+					<br>
+				     <ons-row align="center">
+						<ons-col width="30%">
+							<ons-button class="customblue" modifier="outline" ng-click='setReason("Vaccines"); myNavigator.pushPage(getNextPage(), { animation : "slide" } )'>
+								Vaccines
+							</ons-button>
+							<br /><br />
+							<ons-button class="customblue" modifier="outline" ng-click='setReason("Check Up"); myNavigator.pushPage(getNextPage(), { animation : "slide" } )'>
+								Check Up
+							</ons-button>
+							<br /><br />
+							<ons-button class="customblue" modifier="outline" ng-click='setReason("Follow Up"); myNavigator.pushPage(getNextPage(), { animation : "slide" } )'>
+								Follow Up
+							</ons-button>
+						</ons-col>
+						<ons-col width="5%"></ons-col>
+						<ons-col width="30%">
+							<ons-button class="customblue" modifier="outline" ng-click='setReason("Diarrhea"); myNavigator.pushPage(getNextPage(), { animation : "slide" } )'>
+								Diarrhea
+							</ons-button>
+							<br /><br />
+							<ons-button class="customblue" modifier="outline" ng-click='setReason("Infection"); myNavigator.pushPage(getNextPage(), { animation : "slide" } )'>
+								Infection
+							</ons-button>
+							<br /><br />
+							<ons-button class="customblue" modifier="outline" ng-click='setReason("Remove Stiches"); myNavigator.pushPage(getNextPage(), { animation : "slide" } )'>
+								Remove Stiches
+							</ons-button>
+						</ons-col>
+						<ons-col width="5%"></ons-col>
+						<ons-col width="30%">						
+							<ons-button class="customblue" modifier="outline" ng-click='setReason("Accident"); myNavigator.pushPage(getNextPage(), { animation : "slide" } )'>
+								Accident
+							</ons-button>
+							<br /><br />
+							<ons-button class="customblue" modifier="outline" ng-click='setReason("Weird Behaviour"); myNavigator.pushPage(getNextPage(), { animation : "slide" } )'>
+								Weird Behaviour
+							</ons-button>
+							<br /><br />
+							<ons-button class="customblue" modifier="outline" ng-click='setReason(""); myNavigator.pushPage("page6.html", { animation : "slide" } )'>
+								Other
+							</ons-button>
+						</ons-col>
+					</ons-row>
+                </div>
+            </ons-page>
+        </ons-template>
+        
+   <ons-template id="pageSelectTime.html">
+       <ons-page id="SelectTime" ng-controller="SelectTimeController">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage()">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+                    </div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>              
+               <div style="text-align: center" class="reason">
+					<p class="bigpink">Select your appointment time</p>
+					<ons-row align="center">
+						<ons-col width="20%">
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(0); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(0)[0] }} <div class="pm">{{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(1); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(1)[0] }}   <div class="pm">{{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(2); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(2)[0] }}   <div class="pm">{{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br/> <br/>
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(3); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(3)[0]  }}  <div class="pm">{{ getTime(0)[1] }}</div>
+							</ons-button>
+						</ons-col>
+						<ons-col width="5%"></ons-col>
+						<ons-col width="20%">
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(4); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(4)[0] }}   <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(5); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(5)[0] }}   <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(6); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(6)[0] }}   <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(7); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(7)[0] }}    <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+						</ons-col>
+						<ons-col width="5%"></ons-col>
+						<ons-col width="20%">						
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(8); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(8)[0] }}   <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(9); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(9)[0] }}   <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(10); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(10)[0] }}  <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(11); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(11)[0] }}  <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+						</ons-col>
+						<ons-col width="5%"></ons-col>
+						<ons-col width="20%">						
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(12); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(12)[0] }}   <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(13); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(13)[0] }}   <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(14); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								{{ getTime(14)[0] }}   <div class="pm"> {{ getTime(0)[1] }}</div>
+							</ons-button>
+							<br /><br />
+							<ons-button class="custombluetime" modifier="outline" ng-click='setTime(""); myNavigator.pushPage("pageConfirmTime.html", { animation : "slide" } )'>
+								Other
+							</ons-button>
+						</ons-col>
+					</ons-row>
+                </div>
+            </ons-page>
+        </ons-template>      
+
+        <ons-template id="pageConfirmTime.html">
+            <ons-page id="PageConfirmTimeID" ng-controller="PageConfirmTimeController">
+                <ons-toolbar>
+					<div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage(); angular.element(document.getElementById('Page6ID')).scope().showKeyBoard()">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+					</div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>
+             <div class="container" style="text-align: center">
+                    <br/>
+                    <p class="bigpink" id="appointmentTimeTitle">Select your appointment time</p>
+                    <label id="appointmentTime"></label>			
+                    <br/>
+                    <ons-button class="customblue" ng-click="updateTime()">
+                        Update
+                    </ons-button>
+                    <ons-button class="customblue" ng-click='myNavigator.pushPage("pageReason.html", { animation : "slide" } )'>
+                        Next
+                    </ons-button>
+                 </div>
+            </ons-page>
+        </ons-template>
+        
+         <ons-template id="pageSelectDoctor.html">
+            <ons-page ng-controller="PageSelectDoctorController">
+                <ons-toolbar>
+					<div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage();">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+					</div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>				
+                <div style="text-align: center">
+				<br /><br />
+				<p class="bigpink"> Please select your Doctor </p>
+				<br />
+				<ons-row align="center">
+                    <ons-col width="40%">
+                            <ons-button class="customblueDoctor" modifier="outline" ng-click='setDoctor(doctors[0]); myNavigator.pushPage("page3.html", { animation : "slide" } )'>
+								{{ doctors[0] }}
+							</ons-button>
+							<br /><br /><br /> <br /> 
+							<ons-button class="customblueDoctor" modifier="outline" ng-click='setDoctor(doctors[1]); myNavigator.pushPage("page3.html", { animation : "slide" } )'>
+								{{ doctors[1] }}
+							</ons-button>
+							<br /><br /><br /><br /> 
+							<ons-button class="customblueDoctor" modifier="outline" ng-click='setDoctor(doctors[2]); myNavigator.pushPage("page3.html", { animation : "slide" } )'>
+								{{ doctors[2] }}
+							</ons-button>
+					</ons-col>	
+					<ons-col width="20%"> </ons-col>
+					<ons-col width="40%">
+						    <ons-button class="customblue" modifier="outline" ng-click='setDoctor(doctors[3]); myNavigator.pushPage("page3.html", { animation : "slide" } )'>
+								{{ doctors[3] }} 
+							</ons-button>
+					</ons-col>
+				</ons-row>	
+                 </div>
+            </ons-page>
+        </ons-template>
+        
+        <ons-template id="page3.html">
+            <ons-page ng-controller="Page3Controller">
+                <ons-toolbar>
+					<div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage(); if(!angular.element(document.getElementById('BodyID')).scope().getIsAppointment()){angular.element(document.getElementById('Page6ID')).scope().showKeyBoard()};angular.element(document.getElementById('PageConfirmTimeID')).scope().showTimePicker()">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+					</div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>				
+                <div style="text-align: center">
+				<br /><br /><br/>
+				<p class="bigpink"> Do you have your Pet ID? </p>
+                <br /><br />
+                    <ons-button class="custompink" modifier="outline" ng-click='myNavigator.pushPage("page4.html", { animation : "slide" } )'>
+                        Yes
+                    </ons-button>
+                    &nbsp;&nbsp;
+                    <ons-button class="customblue" modifier="outline" ng-click='myNavigator.pushPage("page7.html", { animation : "slide" } )'>
+                        No
+                    </ons-button>
+                </div>
+            </ons-page>
+        </ons-template>
+        
+        <ons-template id="page4.html">
+            <ons-page ng-controller="Page4Controller">
+               <ons-toolbar>
+                 <div class="left">
+                     <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage()">	<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+                    </div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>
+					<div style="text-align: center">
+					<br/><br/><br />
+					<p class="bigpink"> Please select an input method </p>
+					    <br/> <br/>
+					    <ons-button class="customblue" modifier="outline" style="width:280px" ng-click='myNavigator.pushPage("page4scan.html", { animation : "slide" } )'>
+							<ons-icon icon="ion-camera" size="40px" fixed-width="true"></ons-icon>
+							Scan
+						</ons-button>
+					    <ons-button class="customblue" modifier="outline" style="width:280px" ng-click='myNavigator.pushPage("page4manual.html", { animation : "slide" } )'>
+							<ons-icon icon="fa-hand-o-up" size="35px" fixed-width="true"></ons-icon>
+							Manual Input 
+					    </ons-button>
+				 </div>
+            </ons-page>
+        </ons-template>
+	    <ons-template id="page4scan.html">
+	            <ons-page ng-controller="Page4Controller">
+	                <ons-toolbar>
+	                    <div class="left">
+	                     <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage()">	<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+	                    </div>
+					    <div class="right">
+							<ons-toolbar-button>
+								<img src="img/logo_s.png" class="my-icon">
+							</ons-toolbar-button>
+						</div>
+	                </ons-toolbar>
+						<div style="text-align: center">
+						<br/><br/>
+						<p class="bigpink">Prepare your card or tag</p>
+						<p class="normalblack"> Place QR Code facing to the camera wich is located at the left of the screen. For best results, separate card or tag 5 inches from the screen.</p>
+					    <img src="img/card.png" style="width:280px;margin-right:20px;">
+						<img src="img/tag.png" style="width:112px;">	
+					    <br/><br/><br/>
+					    <ons-button class="customblue" modifier="outline" style="width:300px" ng-click='scanQRC()'>
+						  <ons-icon icon="ion-camera" size="40px" fixed-width="true"></ons-icon>
+							Continue
+						 </ons-button>
+			 		 </div>
+	                	                
+	            </ons-page>
+	      </ons-template>
+	      
+	      
+	   <ons-template id="page4manual.html">
+            <ons-page ng-controller="Page4Controller">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage()">	<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+                    </div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>
+					<div style="text-align: center">
+					<br/><br/>
+					<p class="bigpink">Provide your Pet ID </p>
+					<p class="normalblack"> You will find your Pet ID number on the reverse side of a card or tag as shown in the image bellow </p>
+					<img src="img/card1.png" style="width:280px;margin-right:20px;">
+					<img src="img/tag1.png" style="width:112px;">
+					<br/><br/><br/>	
+					<ons-button class="customblue" modifier="outline" style="width:300px" ng-click='myNavigator.pushPage("page9.html", { animation : "slide" } )'>
+						<ons-icon icon="fa-hand-o-up" size="35px" fixed-width="true"></ons-icon>
+						Continue 
+					</ons-button>
+					 <p class="normalred" id="qrcodeinfo"></p>
+                </div>
+            </ons-page>
+        </ons-template>  
+    <ons-template id="page5.html">
+            <ons-page ng-controller="Page5Controller">
+                <ons-toolbar>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>				
+                <div style="text-align: center">
+                <br/>
+                <div id="divdata2" style="text-align: center"></div>
+                <br/><br/>
+                <ons-button class="customblue" ng-disabled="disabledDonePetID" ng-click='resetParameters(); myNavigator.resetToPage("page0.html", { animation : "slide" } )'>
+                    Done
+                </ons-button>
+                <br/>
+                <br/>
+                <p class="normalblack"> Start over in {{20 - timerCounter.counts}} seconds</p>
+                {{elapsed()}}
+                </div>
+            </ons-page>
+        </ons-template>
+
+        <ons-template id="page6.html">
+            <ons-page id="Page6ID" ng-controller="Page6Controller">
+                <ons-toolbar>
+					<div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage(); Keyboard.hide()">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+					</div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>
+                <div style="text-align: center">
+                <br/>
+                    <p class="bigpink" style="margin-bottom:15px;"> Specify the reason for your {{getPage6Message()}} </p>
+                    <br/>
+                    <input type="text" id="inputReason" class="text-input" ng-model="textReason" placeholder="Reason">
+                    {{setReason(textReason)}}
+                    <ons-button class="customblue" ng-disabled="getDisabledReasonButton()" ng-click='myNavigator.pushPage(getNextPage(), { animation : "slide" } )'>
+                        Next
+                    </ons-button>
+                </div>
+            </ons-page>
+        </ons-template>
+
+        <ons-template id="page7.html">
+            <ons-page id="Page7ID" ng-controller="Page7Controller">
+                <ons-toolbar>
+					<div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage(); Keyboard.hide()">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+					</div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>
+                <div style="text-align: center">
+                    <br/>
+                    <p class="bigpink" style="margin-bottom:15px;"> Enter Pet's Name</p>
+                     <br/>
+                    <input type="text" id="inputName" class="text-input" ng-model="petname" placeholder="Name">
+                    {{setPetName(petname)}}
+                    <ons-button class="customblue" ng-disabled="getDisabledPNameButton()" ng-click='myNavigator.pushPage("page8.html", { animation : "slide" } )'>
+                        Next
+                    </ons-button>               
+                </div>
+            </ons-page>
+        </ons-template>
+        <ons-template id="page8.html">
+            <ons-page id="Page8ID" ng-controller="Page8Controller">
+                <ons-toolbar>
+					<div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage(); angular.element(document.getElementById('Page7ID')).scope().showKeyBoard()">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+					</div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>
+                <div style="text-align: center">
+                    <br/>
+                    <p class="bigpink" style="margin-bottom:15px;"> Enter Last Name</p>
+                    <br/>
+                    <input type="text" id="inputLastName" class="text-input" ng-model="lastname" placeholder="Last name">
+                    {{setPetLastName(lastname)}}
+                    <ons-button class="customblue" ng-disabled="getDisabledPLastNButton()" ng-click='hideKeyboard(); myNavigator.pushPage("page11.html", { animation : "slide" } )'>
+                        Next
+                    </ons-button>
+                </div>
+            </ons-page>
+        </ons-template>
+        <ons-template id="page9.html">
+            <ons-page id="Page9ID" ng-controller="Page9Controller">
+                <ons-toolbar>
+					<div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage(); Keyboard.hide()">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+					</div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>
+                <div style="text-align: center">
+                   <br/>
+                   <p class="bigpink" style="margin-bottom:15px;"> Enter your Pet ID number</p>
+                   <br/>
+                    <input type="text" id="inputpetid" class="text-input" style="text-transform:uppercase" ng-model="petidnumber" placeholder="Pet ID Num.">
+                    {{setPetIDNumber(petidnumber.toUpperCase())}}
+                    <ons-button class="customblue" ng-disabled="(getPetIDNumber().toString().length!=8)" ng-click='hideKeyboard(); myNavigator.pushPage("page10.html", { animation : "slide" } )'>
+                        Next
+                    </ons-button>
+                </div>
+            </ons-page>
+        </ons-template>
+        <ons-template id="page10.html">
+            <ons-page ng-controller="Page10Controller">
+                <ons-toolbar>
+					<div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage(); angular.element(document.getElementById('Page9ID')).scope().showKeyBoard()">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+					</div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>				
+                <div style="text-align: center">
+                   <p class="bigpink"> Pet ID Info </p>
+                    <div id="divdata1" style="text-align: center" ng-include src="'views/partials/petidinfo.html'"></div>
+                    <br/>
+                 <!--   <ons-button class="custompink" modifier="outline" ng-click='go()'>
+                        Retry
+                    </ons-button> -->
+                    &nbsp;&nbsp;
+                    <ons-button class="customblue" ng-disabled="disabledNextButton" ng-click='myNavigator.pushPage("page11.html", { animation : "slide" } )'>
+                        Next
+                    </ons-button>
+                </div>
+            </ons-page>
+        </ons-template>    
+        <ons-template id="page11.html">
+            <ons-page ng-controller="Page11Controller">
+                <ons-toolbar>
+					<div class="left">
+                        <ons-toolbar-button class="toolbar-button--quiet" onclick="myNavigator.popPage(); angular.element(document.getElementById('Page8ID')).scope().showKeyBoard()">
+							<ons-icon class="ion-ios-arrow-back ons-back-button__icon"></ons-icon>
+							Back
+						</ons-toolbar-button>
+					</div>
+				    <div class="right">
+						<ons-toolbar-button>
+							<img src="img/logo_s.png" class="my-icon">
+						</ons-toolbar-button>
+					</div>
+                </ons-toolbar>				
+                <div style="text-align: center">
+                <br/>
+                <p class="bigpink"> Check your data </p>
+				<div id="divdata" style="text-align: center" ng-include src="'views/partials/check-data.html'"></div>
+			<ons-button class="customblue" ng-click='myNavigator.resetToPage("page5.html", { animation : "slide" } )'>
+                    OK
+                </ons-button>
+                </div>
+            </ons-page>
+        </ons-template>               
+    </body>
+</html>

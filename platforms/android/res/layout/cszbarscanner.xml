@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/csZbarScannerView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/csZbarScannerBackground" >
+
+    <TextView android:id="@+id/csZbarScannerTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:paddingTop="15dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:gravity="center"
+        android:text="@string/csZbarScannerTitle"
+        android:textColor="#FF0084"
+        android:background="@color/csZbarScannerTextBackground"
+        android:fontFamily="Raleway"
+        android:textSize="22pt" />
+
+    <TextView android:id="@+id/csZbarScannerInstructions"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:gravity="center"
+        android:textSize="12pt"
+        android:textColor="#FF0084"
+        android:background="@color/csZbarScannerTextBackground"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/csZbarScannerInstructions" />
+
+    <RelativeLayout android:id="@+id/layoutContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <TextView android:id="@+id/leftInstructionText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="140dp"
+            android:background="@color/csZbarScannerTextBackground"
+            android:textColor="#008CFF"
+            android:textSize="72pt"
+            android:text="&#60;"/>
+
+       <TextView android:id="@+id/leftInstructionText"
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
+            android:paddingTop="50dp"
+            android:textColor="#008CFF"
+            android:background="@color/csZbarScannerTextBackground"
+            android:textSize="20pt"
+            android:text="Here"/> 
+            
+        <TextView android:id="@+id/leftInstructionText1"
+            android:layout_width="340dp"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:background="@color/csZbarScannerTextBackground"
+            android:textColor="@color/csZbarScannerTextColor"
+            android:textSize="8pt"
+            android:paddingLeft="100dp"
+            android:paddingRight="100dp"
+            android:layout_alignParentRight="true"
+            android:text="Aproach your Card or Tag with QRCode facing to the camera"/>
+
+		<Button android:id="@+id/manualInputButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="420dp"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:textColor="#FFFFFF"
+            android:textSize="18pt"
+            android:fontFamily="Raleway"
+            android:background="@xml/customstyle"
+            android:text="Manual input"/>
+
+        <Button android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="260dp"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="75dp"
+            android:paddingRight="75dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:textColor="#FFFFFF"
+            android:textSize="18pt"
+            android:fontFamily="Raleway"
+            android:background="@xml/customstyle"
+            android:text="Cancel"/>
+
+        <View android:id="@+id/sight1"
+            android:layout_width="2dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="80dp"
+            android:background="#ffff0a00"/>
+
+        <View android:id="@+id/sight2"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="360dp"
+            android:layout_marginTop="100dp"
+            android:background="#ffff0a00"/>
+
+
+        <View android:id="@+id/sight3"
+            android:layout_width="2dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="360dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="80dp"
+            android:layout_alignParentRight="true"
+            android:background="#ffff0a00"/>
+
+        <View android:id="@+id/sight4"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="360dp"
+            android:layout_marginBottom="80dp"
+            android:layout_alignParentBottom="true"
+            android:background="#ffff0a00"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

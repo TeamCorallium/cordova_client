@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html  ng-app="myApp">
+    <head >
+        <meta charset="utf-8" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="author" content="Tony.">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"/>
+
+        <link rel="stylesheet" type="text/css" href="css/index.css"/>
+        <link rel="stylesheet" href="node_modules/onsenui/css/onsenui.css"/>
+        <link rel="stylesheet" href="node_modules/onsenui/css/onsen-css-components.css"/>    
+        
+        <script src="node_modules/onsenui/js/angular.js"></script>
+        <script src="node_modules/onsenui/js/onsenui.js"></script>
+        <script type="text/javascript">
+            ons.platform.select('ios');
+        </script>        
+        <script src="node_modules/onsenui/js/angular-onsenui.min.js"></script>
+        
+        <title>Corallium</title>
+    </head>
+    <body ng-controller="MainController">
+
+    <ons-modal id="modal">
+    <ons-icon icon="ion-load-c" spin="true"></ons-icon>
+    <br>
+    <br> <p class="normalblack"> Please wait... </p>
+    </ons-modal>
+
+    <ons-navigator id='mynav' animation='fade'>
+        <ons-page>
+            <ons-toolbar>
+                <div class="center"><img src="img/xedro.png" class="toolbar-image"></div>
+<!--                 <div class="left">
+                    <ons-toolbar-button modifier="material" ng-click="gotoSettings()">
+                        <ons-icon icon="cog"></ons-icon>
+                    </ons-toolbar-button>
+                </div>  
+                <div class="right">
+                    <ons-toolbar-button modifier="material" ng-click="popover.show($event)">
+                      <ons-icon icon="md-more-vert"></ons-icon>
+                    </ons-toolbar-button>
+                </div>  -->  
+            </ons-toolbar>
+
+            <div class="login-form">
+                <input type="email" class="text-input--underbar" placeholder="Email" value="">
+                <input type="password" class="text-input--underbar" placeholder="Password" value="">
+                <br><br>
+                <ons-button modifier="large" class="login-button">Log In</ons-button>
+                <br><br>
+                <ons-button modifier="quiet" class="forgot-password">Forgot password?</ons-button>
+                <ons-button modifier="quiet" class="forgot-password">Create an account</ons-button>
+            </div>
+
+        </ons-page>
+    </ons-navigator>  
+
+    <ons-template id="settings.html">
+        <ons-page>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>
+                        Back
+                    </ons-back-button>
+                </div>
+                <div class="center">
+                    <img src="img/settings.png" class="toolbar-image">
+                </div>
+                <div class="right">
+                    <ons-toolbar-button modifier="material" ng-click="updateDeviceConfig()">
+                      <ons-icon icon="md-save"></ons-icon>
+                    </ons-toolbar-button>
+                </div> 
+            </ons-toolbar>
+            
+            <div ng-if="itemsArray.length">
+                <ons-list-item tappable  ng-repeat="item in itemsArray">
+                    <div class="left">
+                        <img clss="Icon" src="{{item.icon}}" width="40" height="40" ></img>
+                    </div>                
+                    <div class="center">
+                        <!-- {{item.desc}} -->
+                        <ons-input float ng-model="item.desc"></ons-input>
+                    </div>
+                    <div class="right">
+                        <label class="checkbox checkbox--material">
+                        <input type="checkbox" id="checkbox3" class="checkbox__input checkbox--material__input" ng-model="item.enable">
+                        <div class="checkbox__checkmark checkbox--material__checkmark"></div>
+                        </label>
+                    </div>
+                </ons-list-item>
+            </div>             
+
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="help.html">
+        <ons-page>
+            <ons-toolbar>
+            <div class="left">
+                <ons-back-button>
+                    Back
+                </ons-back-button>
+            </div>
+            <div class="center">
+                Help
+            </div>
+            </ons-toolbar>
+
+          <div class="profile-card">
+
+            <img src="img/inconLuz.jpg" class="profile-image">
+            <div class="profile-name">Light Control</div>
+            <div class="profile-id">User Manual</div>
+            <!-- <div class="profile-desc">Freelance designer, software engineer and cyclist</div> -->
+
+          </div>
+
+          <ons-list>
+            <ons-list-item ng-click="gotoContent(1)"  modifier="chevron tappable">
+                <div class="list__item__left">
+                Initial setup
+                </div>
+            </ons-list-item>
+            <ons-list-item ng-click="gotoContent(2)"  modifier="chevron tappable">
+                <div class="list__item__left">
+                Device connection
+                </div>
+            </ons-list-item>
+            <ons-list-item ng-click="gotoContent(3)"  modifier="chevron tappable">
+                <div class="list__item__left">
+                On-Off functions
+                </div>
+            </ons-list-item>
+            <ons-list-item ng-click="gotoContent(4)"  modifier="chevron tappable">
+                <div class="list__item__left">
+                Device configuration
+                </div>
+            </ons-list-item>            
+          </ons-list>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="content1.html">
+      <ons-page>
+        <ons-toolbar>
+            <div class="left">
+                <ons-back-button>
+                    Back
+                </ons-back-button>
+            </div>
+          <div class="center">
+            Initial setup
+          </div>
+        </ons-toolbar>
+
+          <div class="profile-card-full">
+            <img src="img/1.png" class="profile-image-middle">
+            <div class="profile-name">Setup Wi-Fi on the mobile</div>
+            <br>
+            <br>
+            <div class="profile-id">
+            1- Power on the Hiletgo device. This device must be power on using and external 5V power supplied. Use USB ports can cause problems. 
+            <br>
+            <br>
+            2- Turn on Wi-Fi on the mobile and scanning Wi-Fi networks. Try to connect to "ESPap" access point using an appropriate password.
+            </div>
+            <!-- <div class="profile-desc">Freelance designer, software engineer and cyclist</div> -->
+          </div>
+
+      </ons-page>
+    </ons-template>
+
+    <ons-template id="content2.html">
+      <ons-page>
+        <ons-toolbar>
+            <div class="left">
+                <ons-back-button>
+                    Back
+                </ons-back-button>
+            </div>
+          <div class="center">
+            Device connection
+          </div>
+        </ons-toolbar>
+
+          <div class="profile-card-full">
+            <img src="img/2.png" class="profile-image-middle">
+            <div class="profile-name">Light Control main view</div>
+            <div class="profile-id">
+            3- Open the Light Control application.
+            </div>           
+            <img src="img/3.png" class="profile-image-middle">
+            <div class="profile-name">Connection error</div>            
+            <div class="profile-id">
+            4- If everything is right you will can see the graphical components list, in the other way the application will show an error alert.
+            </div>
+          </div>
+
+      </ons-page>
+    </ons-template>
+
+    <ons-template id="content3.html">
+      <ons-page>
+        <ons-toolbar>
+            <div class="left">
+                <ons-back-button>
+                    Back
+                </ons-back-button>
+            </div>
+          <div class="center">
+            On-Off functions
+          </div>
+        </ons-toolbar>
+
+          <div class="profile-card-full">
+            <img src="img/4.png" class="profile-image-middle">
+            <div class="profile-name">Turn lights on-off</div>
+            <br>
+            <br>
+            <div class="profile-id">
+            5- Use the switch button to turn on and turn off the lights.
+            </div>
+            <!-- <div class="profile-desc">Freelance designer, software engineer and cyclist</div> -->
+          </div>
+
+      </ons-page>
+    </ons-template>
+
+    <ons-template id="content4.html">
+      <ons-page>
+        <ons-toolbar>
+            <div class="left">
+                <ons-back-button>
+                    Back
+                </ons-back-button>
+            </div>
+          <div class="center">
+            Device configuration
+          </div>
+        </ons-toolbar>
+
+          <div class="profile-card-full">
+            <img src="img/6.png" class="profile-image-middle">
+            <div class="profile-name">Configuration</div>
+            <br>
+            <br>
+            <div class="profile-id">
+            6- You can change names and enable or disable graphical components.
+            <br>
+            <br>
+            7- Use save button to send the configuracion to the device.
+            </div>
+            <!-- <div class="profile-desc">Freelance designer, software engineer and cyclist</div> -->
+          </div>
+
+      </ons-page>
+    </ons-template>    
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+</body>
+</html>
