@@ -1,44 +1,17 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-var keyboardIsVisible = false;
 var app = {
     // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+    initialize: function () {
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
     },
     // deviceready Event Handler
     //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        //app.receivedEvent('deviceready');
-        keepscreenon.enable();
+    // Bind any cordova events here. Common events are:
+    // 'pause', 'resume', etc.
+    onDeviceReady: function () {
+        this.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
+    receivedEvent: function (id) {
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
@@ -48,68 +21,149 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
-    scanQRCode: function() {
-    	//qr code reader.
-    	var urlLbl = document.getElementById("urlLbl");
-    	urlLbl.innerHTML = "scanning...";
-    	
-        var params = {
-            text_title: 'Scan QR Code', // Android only
-            text_instructions: 'Please point your camera at the QR code.', // Android only
-            camera: "back", // defaults to "back", option "front"
-            flash: "auto" // defaults to "auto". See Quirks  || "on" || "off" 
-        };
-        
-        cloudSky.zBar.scan(params, onSuccess=function(s){
-        	alert('success: ' + s);
-        	var urlLbl = document.getElementById("urlLbl");
-        	urlLbl.innerHTML = s;
-        }, 
-        onFailure=function(s){
-        	if (s == 'canceled'){
-        		alert ('user cancelled!');
-        	}
-        	else {
-        		alert ('failure: ' + s);
-        	}
-        	
-        	urlLbl.innerHTML = s;
-        });
-    }
 };
 
 app.initialize();
 
+var app = angular.module('myApp', ['onsen']);
 
+app.controller('MainController', function ($scope, $http){
+        
+    $scope.itemsArray = [];
+    $scope.filterEnable = true;
+    $scope.httpConnection = 'ok';
 
+    activate();
 
+    ////////////////
+    function activate() {
+        getConfig();  
+    }
 
+    $scope.myFilter = function (value) { 
+        return value === '1';
+    };
 
+    $scope.onCheckbox = function(value, id) {
+        var intId = Number(id) + 1;
+        $scope.getData(value, intId); 
+    } 
 
+    $scope.getData = function(value, id) {
+        var modal = document.getElementById('modal');
+        modal.show();
 
-//----
+        var url = 'http://192.168.4.1/on?id=' + id;
+        if(value == false) {
+            url = 'http://192.168.4.1/off?id=' + id;
+        }
 
-var idleTime = 0;
-var idleMaxTime = 60;
-$(document).ready(function () {
-    //Increment the idle time counter every minute.
-    var idleInterval = setInterval(timerIncrement, 1000); // 1 seg
+        $http.get(url)
+            .then(function onSuccess(response) {
+                $scope.httpConnection = 'Connection OK';
+                modal.hide();
+            })
+            .catch(function onError(response) {
+                modal.hide();
+                ons.notification.alert('Connection error!!! Check your wifi config and try again...'); 
+                $scope.itemsArray = [];
+            });
+    } 
 
-    //Zero the idle timer on mouse movement.
-    $(this).mousemove(function (e) {
-        idleTime = 0;
-    });
-    $(this).keypress(function (e) {
-        idleTime = 0;
-    });
+    $scope.getDeviceConfig = function() {
+        getConfig();
+    }
+
+    $scope.updateDeviceConfig = function() {
+        updateConfig();
+    }    
+
+    function getConfig() {
+        $scope.itemsArray = [];
+        var modal = document.getElementById('modal');
+        modal.show();
+
+        $http.get('http://192.168.4.1/get_config')
+            .then(function onSuccess(response) {
+                $scope.httpConnection = response.data;
+                var data = response.data;
+                var listData = data.split(':');
+                for (i = 0; i < listData.length; i++) { 
+                    var itemValues = listData[i].split(',');
+                    if(itemValues.length == 3) {
+                        var item = {};
+                        item.icon = 'img/inconLuz.jpg';
+                        item.id = itemValues[0];
+                        item.desc = itemValues[1];
+                        // item.pin = itemValues[2];
+                        item.enable = itemValues[2] == '1';
+                        $scope.itemsArray.push(item);
+                    }
+                }
+                modal.hide();
+            })
+            .catch(function onError(response) {
+                ons.notification.alert('Connection error!!! Check your wifi config and try again...'); 
+                modal.hide();
+            });
+    }
+
+    function updateConfig() {
+        var parameters = 'count=' + $scope.itemsArray.length+'&';
+
+        for (i = 0; i < $scope.itemsArray.length; i++) { 
+            parameters += 'id'+ i + '=' + $scope.itemsArray[i].id +'&';
+            parameters += 'desc'+ i + '=' + $scope.itemsArray[i].desc +'&';
+            parameters += 'enable'+ i + '=' + $scope.itemsArray[i].enable;
+
+            if (i != $scope.itemsArray.length - 1) {
+                parameters += '&';
+            }
+        }
+
+        var modal = document.getElementById('modal');
+        modal.show();
+
+        $http.get('http://192.168.4.1/update_config?' + parameters)
+            .then(function onSuccess(response) {
+                modal.hide();
+                ons.notification.alert('Successful config update'); 
+                mynavg.popPage();
+            })
+            .catch(function onError(response) {
+                ons.notification.alert('Connection error!!! Check your wifi config and try again...'); 
+                mynavg.popPage();
+                modal.hide();
+            });       
+    }
+
+    $scope.load = function(page) {
+      mySplitter.content.load(page)
+        .then(function() {
+          mySplitter.left.close();
+        });
+    };
+
+    var mynavg = document.querySelector("#mynav");  
+
+    $scope.showAbout = function () {
+        ons.notification.alert({
+            title: 'About us',
+            message: 'Development by the Embedded Systems Team...'
+        }); 
+    }
+
+    $scope.gotoSettings = function () {
+        mynavg.pushPage("settings.html");
+    };
+
+    $scope.gotoHelp = function () {
+        mynavg.pushPage("help.html");
+    };
+
+    $scope.gotoContent = function (id) {
+        mynavg.pushPage("content"+id+".html");
+    }
 });
 
-function timerIncrement() {
-    idleTime = idleTime + 1;
-    if (idleTime > idleMaxTime) { // 1min
-    	idleTime=0;
-    	//alert('In timer increment method.')
-    	 var scope = angular.element($("#BodyID")).scope();
-    	 scope.onUserIdle();
-    }
-}
+

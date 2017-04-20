@@ -32,7 +32,7 @@
     <br> <p class="normalblack"> Please wait... </p>
     </ons-modal>
 
-    <ons-navigator id='mynav' animation='fade'>
+    <ons-navigator var='mynav' id='mynav' animation='fade'>
         <ons-page>
             <ons-toolbar>
                 <div class="center"><img src="img/xedro.png" class="toolbar-image"></div>
@@ -52,7 +52,7 @@
                 <input type="email" class="text-input--underbar" placeholder="Email" value="">
                 <input type="password" class="text-input--underbar" placeholder="Password" value="">
                 <br><br>
-                <ons-button modifier="large" class="login-button">Log In</ons-button>
+                <ons-button modifier="large" class="login-button" ng-click="mynav.pushPage('views/profile.html')">Log In</ons-button>
                 <br><br>
                 <ons-button modifier="quiet" class="forgot-password">Forgot password?</ons-button>
                 <ons-button modifier="quiet" class="forgot-password">Create an account</ons-button>
@@ -60,6 +60,12 @@
 
         </ons-page>
     </ons-navigator>  
+
+<!--     <ons-template id="profile.html">
+        
+
+    </ons-template> -->
+
 
     <ons-template id="settings.html">
         <ons-page>
